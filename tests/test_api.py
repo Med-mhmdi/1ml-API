@@ -1,10 +1,17 @@
 # tests/test_api.py
 
+import os
+import sys
 import io
+
 from fastapi.testclient import TestClient
 from PIL import Image
-
 from image_api.api import app
+
+# ----- ensure project root is on sys.path -----
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 
 client = TestClient(app)
 
@@ -39,14 +46,14 @@ def test_predict_image_success():
     assert isinstance(data["predictions"], list)
     assert len(data["predictions"]) > 0
 
-    pred0 = data["predictions"][0]
-    assert "class_id" in pred0
-    assert "class_name" in pred0
-    assert "score" in pred0
+    first = data["predictions"][0]
+    assert "class_id" in first
+    assert "class_name" in first
+    assert "score" in first
 
 
 def test_predict_image_invalid_file():
-    fake_bytes = b"this is not an image"
+    fake_bytes = b"not an image"
 
     response = client.post(
         "/predict-image",
