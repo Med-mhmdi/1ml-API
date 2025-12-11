@@ -3,7 +3,5 @@ uvicorn[standard]
 pillow
 python-multipart
 pytest
-numpy
-httpx
-transformers
 torch
+transformers
