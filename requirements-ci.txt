@@ -1,8 +1,8 @@
 fastapi
 uvicorn[standard]
 pillow
-python-multipart
 pytest
-torch
-transformers
+numpy
 httpx
+transformers
+torch
