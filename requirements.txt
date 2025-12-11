@@ -6,3 +6,7 @@ tensorflow
 pytest
 numpy
 httpx
+
+transformers
+torch
+accelerate
