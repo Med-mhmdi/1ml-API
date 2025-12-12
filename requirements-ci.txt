@@ -1,8 +1,8 @@
+torch==2.6.0
+transformers
 fastapi
 uvicorn[standard]
 pillow
 pytest
 numpy
 httpx
-transformers
-torch

@@ -9,7 +9,10 @@ router = APIRouter(
 )
 
 # Load model once globally
-MODEL_NAME = "tiiuae/falcon-rw-1b"
+MODEL_NAME = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+#MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
+#MODEL_NAME = "microsoft/phi-2"
+
 
 # Load tokenizer
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
