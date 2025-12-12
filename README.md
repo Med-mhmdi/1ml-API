@@ -1,81 +1,171 @@
-# Image Classification API (FastAPI + MobileNetV2)
+# ML Microservices Suite 2025
+Image Classification + LLM Text Generation APIs
 
 ## Overview
-This project implements an image classification API using FastAPI and MobileNetV2 pre-trained on ImageNet.  
-It is part of Software Engineering Task Series 2 (Semester 2, 2025/2026) to learn ML deployment, API building, testing, and CI automation.
+This project contains two production-ready machine learning services built with **FastAPI** as part of **Software Engineering – Task Series 2 (Semester 2, 2025/2026)**.
 
-## API Endpoints
+The system demonstrates how classical ML models and modern LLMs can be exposed as REST APIs, tested, and integrated into a single application.
 
-### GET /health
-Returns:
-{"status": "ok"}
+## Services
 
-### POST /predict-image
-Accepts an uploaded image, preprocesses it, performs inference, and returns the top-3 predicted labels with confidence scores.
+| Service | Model | Endpoint Prefix | Description |
+|-------|-------|----------------|-------------|
+| Image Classification | MobileNetV2 (ImageNet) | `/image` | Classify uploaded images |
+| LLM Text Generation | Qwen2.5-0.5B / TinyLlama / Phi-2 | `/llm` | Generate text from prompts |
 
-Example response:
-{
-  "predictions": [
-    {"class_id": "n02124075", "class_name": "Egyptian_cat", "score": 0.92},
-    {"class_id": "n02123045", "class_name": "tabby_cat", "score": 0.04},
-    {"class_id": "n02123159", "class_name": "tiger_cat", "score": 0.02}
-  ]
-}
+Both services run inside **one FastAPI app** using router mounting.
+
+---
+
+## Live Endpoints (after running)
+
+- Main API docs: http://127.0.0.1:8000/docs  
+- Image API docs: http://127.0.0.1:8000/image/docs  
+- LLM API health: http://127.0.0.1:8000/llm/health  
+
+---
 
 ## Project Structure
-image_api/
- ├── api.py
- └── __init__.py
-tests/
- └── test_api.py
-.github/
- └── workflows/tests.yml
-requirements.txt
-README.md
 
-## Installation
+```
+ml-microservices-2025/
+├── image_api/
+│   ├── api.py
+│   └── __init__.py
+├── llm_api/
+│   ├── api.py
+│   └── __init__.py
+├── main.py              # Single entry point
+├── tests/
+│   ├── test_image_api.py
+│   └── test_llm_api.py
+├── requirements.txt
+├── .github/workflows/ci.yml
+└── README.md
+```
 
-Create virtual environment:
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/your-username/ml-microservices-2025.git
+cd ml-microservices-2025
+
 python -m venv .venv
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
 
-Activate:
-Windows:
-.venv\Scripts\activate
-
-Linux/macOS:
-source .venv/bin/activate
-
-Install dependencies:
-pip install --upgrade pip
 pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-## Running the API
-uvicorn image_api.api:app --reload
+Server will be available at:
+```
+http://127.0.0.1:8000
+```
 
-Swagger UI:
-http://127.0.0.1:8000/docs
+---
+
+## Image Classification API
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|------|---------|-------------|
+| GET | `/image/health` | Health check |
+| POST | `/image/predict-image` | Upload image and get predictions |
+
+### Example Response
+
+```json
+{
+  "predictions": [
+    {"class_name": "Egyptian Cat", "score": 0.96},
+    {"class_name": "Tabby Cat", "score": 0.02},
+    {"class_name": "Tiger Cat", "score": 0.01}
+  ]
+}
+```
+
+---
+
+## LLM Text Generation API
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|------|---------|-------------|
+| GET | `/llm/health` | Health check |
+| POST | `/llm/generate` | Generate text from prompt |
+
+### Example Request
+
+```json
+{
+  "prompt": "Explain quantum computing like I'm 10",
+  "max_new_tokens": 100
+}
+```
+
+### Example Response
+
+```json
+{
+  "prompt": "Explain quantum computing like I'm 10",
+  "response": "Regular computers use bits that are either 0 or 1..."
+}
+```
+
+---
 
 ## Testing
-Unit tests verify:
-- health endpoint works
-- valid inference returns predictions
-- invalid upload triggers error
 
-Run tests:
-pytest -q
+Run all tests:
+
+```bash
+pytest -v
+```
+
+Tests cover:
+- Health checks
+- Valid inference
+- Invalid inputs
+- Schema validation
+
+---
 
 ## Continuous Integration
-GitHub Actions automatically runs:
-- dependency installation
-- test execution
-- commit validation
 
-## Learning Outcome
-This project demonstrates:
-- Machine learning model deployment via REST APIs
-- Test-driven development principles
-- Continuous integration automation
-- Reproducible development environments
+GitHub Actions CI automatically:
+- Sets up Python environment
+- Installs dependencies
+- Runs full test suite
+- Fails build on any error
 
-This completes Task Series 2 Part 1 and Part 2.  
-Upcoming tasks include LLM API creation, lightweight model deployment, hallucination evaluation, and agent model selection.
+---
+
+## Learning Outcomes
+
+- Deploying ML and LLM models as REST APIs
+- Multi-router FastAPI architecture
+- Secure file uploads
+- Prompt validation and limits
+- Automated testing with pytest
+- CI/CD with GitHub Actions
+- Clean, professional documentation
+
+---
+
+## Status
+
+Software Engineering – Task Series 2  
+Parts 1 & 2: **Completed**
+
+Next steps:
+- AI Agent implementation
+- Hallucination benchmarking
+- Observability and monitoring
+
+---
+
+© 2025 – Academic & portfolio project
